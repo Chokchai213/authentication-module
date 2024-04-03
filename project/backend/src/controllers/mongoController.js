@@ -111,18 +111,8 @@ exports.getFunds = async (req, res) => {
     const collection = db.collection("funds");
 
     try {
-        query = {};
         var findResult = await collection
-            .find(query)
-            .project({
-                _id: 1,
-                proj_name_th: 1,
-                proj_name_en: 1,
-                growthrat_lastmonth: 1,
-                url_factsheet: 1,
-                spec_code: 1
-            })
-            .sort({ growthrat_lastmonth: -1 })
+            .find()
             .toArray();
         res.json(findResult);
     } catch (error) {
@@ -566,6 +556,7 @@ exports.upsertGoal = async (req, res) => {
         if (isVerify) {
             if (goalObjId || goalData._id) {
                 //code to edit existing goal
+                goalData.type = "normal"
                 let id = goalObjId ? new ObjectId(goalObjId) : new ObjectId(goalData._id)
                 let query = { _id: id }
                 delete goalData._id
@@ -579,6 +570,7 @@ exports.upsertGoal = async (req, res) => {
                     { upsert: true }
                 );
             } else {
+                goalData.type = "normal"
                 let query = { userId: userId, Name: goalData.Name };
                 await collection.updateOne(
                     query,
