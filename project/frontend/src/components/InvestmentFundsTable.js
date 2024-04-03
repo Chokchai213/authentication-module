@@ -30,7 +30,7 @@ const secAPIFundDailyInfoHeader = {
 async function getFundsLastestNav(proj_id) {
     try {
         const res = await axios.get(
-            `http://localhost:8000/secapiutils/get_lastest_nav`,
+            `${baseURL}/secapiutils/get_lastest_nav`,
             {
                 headers: {
                     'proj_id': proj_id

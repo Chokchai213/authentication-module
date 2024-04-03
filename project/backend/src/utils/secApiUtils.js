@@ -1,7 +1,6 @@
 
 require('dotenv').config({ path: '../.env' });
 const axios = require('axios'); 
-const { response } = require('../../app');
 
 const secAPIFundDailyInfoHeader = {
     "Ocp-Apim-Subscription-Key": process.env.FUND_DAILY_INFO_API_KEY,
@@ -11,13 +10,12 @@ function formatDate(date) {
     const year = date.getFullYear();
     const month = String(date.getMonth() + 1).padStart(2, "0");
     const day = String(date.getDate()).padStart(2, "0");
-
     return `${year}-${month}-${day}`;
 }
 
 function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
-  }
+}
 
 exports.getFundsLastestNav = async (req, res) => {
     const proj_id = req.header("proj_id");
