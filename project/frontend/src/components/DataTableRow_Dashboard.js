@@ -209,6 +209,7 @@ export const DataTableRow = ({
     setUserData,
     selectedYear,
     isDeleteActive,
+    index
 }) => {
     const userStore = useSelector((state) => state.userStore);
     const [openModal, setOpenModal] = useState(false);
@@ -234,7 +235,7 @@ export const DataTableRow = ({
     return (
         <React.Fragment key={"fragment-parent-table-row-"+dataMonth.date}>
             <TableRow 
-            // sx={{ "& > *": { borderBottom: "none" } }}
+            sx={{ backgroundColor : index%2===0 ? "white" : "#efefef"}}
             >
                 <TableCell >
                     <IconButton

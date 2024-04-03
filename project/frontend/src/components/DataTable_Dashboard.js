@@ -246,6 +246,7 @@ export default function MonthDataTable({ userData, setUserData }) {
                             ? true
                             : false
                         }
+                        index={index}
                       ></DataTableRow>
                     ))}
                   </>
