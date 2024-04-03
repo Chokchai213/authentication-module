@@ -21,6 +21,7 @@ import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import OverlayLoading from "./OverlayLoading";
 import axios from "axios";
 import { Typography } from "@mui/material";
+import { formatNumberWithCommas } from "utils/numberUtil";
 import Paper from "@mui/material/Paper";
 
 const baseURL = "http://localhost:8000";
@@ -222,8 +223,8 @@ export default function MonthDataTable({ userData, setUserData }) {
                   <TableCell align="center" style={{ width: "10%" }}>
                     เดือน
                   </TableCell>
-                  <TableCell align="center">รายรับ</TableCell>
-                  <TableCell align="center">รายจ่าย</TableCell>
+                  <TableCell align="center">รายรับ&nbsp;(บาท)</TableCell>
+                  <TableCell align="center">รายจ่าย&nbsp;(บาท)</TableCell>
                   {/* <TableCell align="center">เงินลงทุน</TableCell> */}
                   <TableCell align="center" style={{ width: "2%" }}></TableCell>
                 </TableRow>
@@ -286,7 +287,7 @@ export default function MonthDataTable({ userData, setUserData }) {
                       fontSize: 18,
                     }}
                   >
-                    รวม
+                    รวม&nbsp;(บาท)
                   </TableCell>
                   <TableCell
                     align="center"
@@ -297,7 +298,7 @@ export default function MonthDataTable({ userData, setUserData }) {
                       fontSize: 18,
                     }}
                   >
-                    {sumIncome}
+                    {formatNumberWithCommas(sumIncome)}
                   </TableCell>
                   <TableCell
                     align="center"
@@ -308,7 +309,7 @@ export default function MonthDataTable({ userData, setUserData }) {
                       fontSize: 18,
                     }}
                   >
-                    {sumExpense}
+                    {formatNumberWithCommas(sumExpense)}
                   </TableCell>
                 </TableRow>
               </TableFooter>
