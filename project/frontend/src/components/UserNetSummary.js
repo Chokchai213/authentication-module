@@ -1,10 +1,10 @@
-
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import Container from "@mui/material/Container";
 import Box from "@mui/material/Box";
 import { Typography } from "@mui/material";
 import { formatNumberWithCommas } from "utils/numberUtil";
+import Grid from "@mui/material/Grid";
 import axios from "axios";
 
 const baseURL = "http://localhost:8000";
@@ -33,8 +33,8 @@ export const UserNetSummary = ({ userData }) => {
                 console.error("Error fetching user assets:", error);
             }
         };
-        fetchData()
-    }, [userData, userStore])
+        fetchData();
+    }, [userData, userStore]);
     return (
         <Box>
             <Container>
@@ -54,22 +54,73 @@ export const UserNetSummary = ({ userData }) => {
                     sx={{
                         padding: 1,
                     }}
-                >ยอดสรุปเงินของคุณ</Typography>
-                <>
-                    รายรับทั้งหมดของคุณ = {userNetSummary && formatNumberWithCommas(userNetSummary.netIncome)+" บาท"}
-                    <br />
-                    รายจ่ายทั้งหมดของคุณ = {userNetSummary && formatNumberWithCommas(userNetSummary.netExpense)+" บาท"}
-                    <br />
-                    รายรับทั้งหมด - รายจ่ายทั้งหมด = {userNetSummary && formatNumberWithCommas(userNetSummary.netIncomeExpense)+" บาท"}
-                    <br />
-                    ซื้อกองทุนไปทั้งหมด = {userNetSummary && formatNumberWithCommas(userNetSummary.netBoughtAsset)+" บาท"}
-                    <br />
-                    ขายกองทุนไปทั้งหมด = {userNetSummary && formatNumberWithCommas(userNetSummary.netSoldAsset)+" บาท"}
-                    <br />
-                    ความมั่งคั่งของคุณ = {userNetSummary && formatNumberWithCommas(userNetSummary.netWealth)+" บาท"}
-                    <br />
-                </>
+                >
+                    ยอดสรุปเงินของคุณทั้งหมด
+                </Typography>
+                <Grid
+                    container
+                    spacing={0}
+                    direction="row"
+                    alignItems="left"
+                    justifyContent="left"
+                >
+                    <Grid item xs={4} md={6}>
+                        <Typography style={{ fontSize: 18 }}>
+                            รายรับทั้งหมดของคุณ ={" "}
+                            {userNetSummary &&
+                                formatNumberWithCommas(userNetSummary.netIncome) + " บาท"}
+                        </Typography>
+                        <Typography style={{ fontSize: 18 }}>
+                            รายจ่ายทั้งหมดของคุณ ={" "}
+                            {userNetSummary &&
+                                formatNumberWithCommas(userNetSummary.netExpense) + " บาท"}
+                        </Typography>
+                        <Typography style={{ fontSize: 18 }}>
+                            รายรับทั้งหมด - รายจ่ายทั้งหมด ={" "}
+                            {userNetSummary && (
+                                <span
+                                    style={{
+                                        color:
+                                            userNetSummary.netIncomeExpense > 0 ? "green" : "red",
+                                        fontWeight: "bold",
+                                    }}
+                                >
+                                    {formatNumberWithCommas(userNetSummary.netIncomeExpense) +
+                                        " "}
+                                </span>
+                            )}
+                            บาท
+                        </Typography>
+                    </Grid>
+                    <Grid item xs={4} md={4}>
+                        <Typography style={{ fontSize: 18 }}>
+                            ซื้อกองทุนไปทั้งหมด ={" "}
+                            {userNetSummary &&
+                                formatNumberWithCommas(userNetSummary.netBoughtAsset) + " บาท"}
+                        </Typography>
+                        <Typography style={{ fontSize: 18 }}>
+                            ขายกองทุนไปทั้งหมด ={" "}
+                            {userNetSummary &&
+                                formatNumberWithCommas(userNetSummary.netSoldAsset) + " บาท"}
+                        </Typography>
+                        <Typography style={{ fontSize: 18 }}>
+                            ความมั่งคั่งของคุณ ={" "}
+                            {userNetSummary && (
+                                <span
+                                    style={{
+                                        color:
+                                            userNetSummary.netIncomeExpense > 0 ? "green" : "red",
+                                        fontWeight: "bold",
+                                    }}
+                                >
+                                    {formatNumberWithCommas(userNetSummary.netWealth) + " "}
+                                </span>
+                            )}
+                            บาท
+                        </Typography>
+                    </Grid>
+                </Grid>
             </Container>
         </Box>
-    )
-}
+    );
+};

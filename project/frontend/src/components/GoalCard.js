@@ -13,19 +13,34 @@ import { formatNumberWithCommas } from "utils/numberUtil";
 import { OverlayLoading } from "./OverlayLoading";
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
-const theme = createTheme({
+const themeNormalGoal = createTheme({
     components: {
-      MuiCardContent: {
-        styleOverrides: {
-            root:{
-                padding: 0,
-                paddingLeft:16,
-                paddingRight:16
-            }
+        MuiCardContent: {
+            styleOverrides: {
+                root: {
+                    padding: 0,
+                    paddingLeft: 16,
+                    paddingRight: 16
+                }
+            },
         },
-      },
     },
-  });
+});
+
+const themeReductionGoal = createTheme({
+    components: {
+        MuiCardContent: {
+            styleOverrides: {
+                root: {
+                    padding: 0,
+                    paddingLeft: 12,
+                    paddingBottom: 24,
+                }
+            },
+        },
+    },
+});
+
 
 function EachCard({ data }) {
     const token = useSelector((state) => state.userStore.userToken);
@@ -159,46 +174,46 @@ function EachCard({ data }) {
                 //alt="icon/image"
                 />
                 <ThemeProvider
-                theme={theme}>
-                <CardContent>
-                    <Typography gutterBottom variant="h6" component="div">
-                        ชื่อ : {data.Name || ""}
-                    </Typography>
-                    <Typography
-                        component="div"
-                        variant="subtitile1"
-                        color="text.secondary"
-                    >
-                        ระยะเวลาการลงทุน : {parseInt(new Date(data.GoalTime).getFullYear()) - parseInt(new Date(data.CreatedDate).getFullYear()) + " ปี" || ""}
-                    </Typography>
-                    <Typography
-                        component="div"
-                        variant="subtitile1"
-                        color="text.secondary"
-                    >
-                        เป้าหมาย : {formatNumberWithCommas(data.Goal) + " บาท" || ""}
-                    </Typography>
-                    <Typography
-                        component="div"
-                        variant="subtitile1"
-                        color="text.secondary"
-                    >
-                        สถานะ : <span style={{ color: data.hasOwnProperty("goalStatus") ? data.goalStatus ? "green" : "red" : null }}>{data.hasOwnProperty("goalStatus") ? data.goalStatus ? "สำเร็จ" : "ยังไม่บรรลุเป้าหมาย" : "-"}</span>
-                    </Typography>
-                    <Typography
-                        component="div"
-                        variant="subtitile1"
-                        color="text.secondary"
-                    >
-                        วันที่สร้าง :{" "}
-                        {new Date(data.CreatedDate).toLocaleDateString("th-TH", {
-                            weekday: "long",
-                            year: "numeric",
-                            month: "long",
-                            day: "numeric",
-                        }) || ""}
-                    </Typography>
-                </CardContent>
+                    theme={themeNormalGoal}>
+                    <CardContent>
+                        <Typography gutterBottom variant="h6" component="div">
+                            ชื่อ : {data.Name || ""}
+                        </Typography>
+                        <Typography
+                            component="div"
+                            variant="subtitile1"
+                            color="text.secondary"
+                        >
+                            ระยะเวลาการลงทุน : {parseInt(new Date(data.GoalTime).getFullYear()) - parseInt(new Date(data.CreatedDate).getFullYear()) + " ปี" || ""}
+                        </Typography>
+                        <Typography
+                            component="div"
+                            variant="subtitile1"
+                            color="text.secondary"
+                        >
+                            เป้าหมาย : {formatNumberWithCommas(data.Goal) + " บาท" || ""}
+                        </Typography>
+                        <Typography
+                            component="div"
+                            variant="subtitile1"
+                            color="text.secondary"
+                        >
+                            สถานะ : <span style={{ color: data.hasOwnProperty("goalStatus") ? data.goalStatus ? "green" : "red" : null }}>{data.hasOwnProperty("goalStatus") ? data.goalStatus ? "สำเร็จ" : "ยังไม่บรรลุเป้าหมาย" : "-"}</span>
+                        </Typography>
+                        <Typography
+                            component="div"
+                            variant="subtitile1"
+                            color="text.secondary"
+                        >
+                            วันที่สร้าง :{" "}
+                            {new Date(data.CreatedDate).toLocaleDateString("th-TH", {
+                                weekday: "long",
+                                year: "numeric",
+                                month: "long",
+                                day: "numeric",
+                            }) || ""}
+                        </Typography>
+                    </CardContent>
                 </ThemeProvider>
                 <CardActions
                     style={{ width: "100%", justifyContent: "center", gap: "10%" }}
@@ -207,7 +222,7 @@ function EachCard({ data }) {
                         onClick={() => {
                             handleClickEdit(data)
                         }}
-                        sx={{ backgroundColor: "#3f28a8" }}
+                        sx={{ backgroundColor: "#4A90E2" }}
                         size="small"
                     >
                         <Typography color="white" variant="subtitile1">
@@ -218,7 +233,7 @@ function EachCard({ data }) {
                         onClick={() => {
                             handleClickInvest(data)
                         }}
-                        sx={{ backgroundColor: "#ffc200" }}
+                        sx={{ backgroundColor: "#2ECC71" }}
                         size="small"
                     >
                         <Typography color="white" variant="subtitile1">
@@ -227,7 +242,7 @@ function EachCard({ data }) {
                     </Button>
                     <Button
                         onClick={handleOpenDelete}
-                        sx={{ backgroundColor: "brown" }}
+                        sx={{ backgroundColor: "#E74C3C" }}
                         size="small"
                     >
                         <Typography color="white" variant="subtitile1">
@@ -259,38 +274,41 @@ function EachCard({ data }) {
                     image={require("../tax.png")}
                     alt="icon/image"
                 />
-                <CardContent>
-                    <Typography gutterBottom variant="h6" component="div">
-                        ชื่อ : {data.Name || ""}
-                    </Typography>
-                    <Typography
-                        component="div"
-                        variant="subtitile1"
-                        color="text.secondary"
-                    >
-                        ระยะเวลาการลงทุน : -
-                    </Typography>
-                    <Typography
-                        component="div"
-                        variant="subtitile1"
-                        color="text.secondary"
-                    >
-                        เป้าหมาย : ลดหย่อนภาษีให้ได้มากที่สุด
-                    </Typography>
-                    <Typography
-                        component="div"
-                        variant="subtitile1"
-                        color="text.secondary"
-                    >
-                        วันที่สร้าง :{" "}
-                        {new Date(data.CreatedDate).toLocaleDateString("th-TH", {
-                            weekday: "long",
-                            year: "numeric",
-                            month: "long",
-                            day: "numeric",
-                        }) || ""}
-                    </Typography>
-                </CardContent>
+                <ThemeProvider theme={themeReductionGoal}>
+                    <CardContent>
+                        <Typography gutterBottom variant="h6" component="div">
+                            ชื่อ : {data.Name || ""}
+                        </Typography>
+                        <Typography
+                            component="div"
+                            variant="subtitile1"
+                            color="text.secondary"
+                        >
+                            ระยะเวลาการลงทุน : -
+                        </Typography>
+                        <Typography
+                            component="div"
+                            variant="subtitile1"
+                            color="text.secondary"
+                        >
+                            เป้าหมาย : ลดหย่อนภาษีให้ได้มากที่สุด
+                        </Typography>
+                        <Typography
+                            component="div"
+                            variant="subtitile1"
+                            color="text.secondary"
+                        >
+                            วันที่สร้าง :{" "}
+                            {new Date(data.CreatedDate).toLocaleDateString("th-TH", {
+                                weekday: "long",
+                                year: "numeric",
+                                month: "long",
+                                day: "numeric",
+                            }) || ""}
+                        </Typography>
+                    </CardContent>
+                </ThemeProvider>
+
                 <CardActions
                     style={{ width: "100%", justifyContent: "center", gap: "10%" }}
                 >
@@ -299,16 +317,17 @@ function EachCard({ data }) {
                         onClick={() => {
                             handleClickInvest(data)
                         }}
-                        sx={{ backgroundColor: "#ffc200" }}
+                        sx={{ backgroundColor: "#2ECC71" }}
                         size="small"
                     >
+
                         <Typography color="white" variant="subtitile1">
                             ลงทุน
                         </Typography>
                     </Button>
                     <Button
                         onClick={handleOpenDelete}
-                        sx={{ backgroundColor: "brown" }}
+                        sx={{ backgroundColor: "#E74C3C" }}
                         size="small"
                     >
                         <Typography color="white" variant="subtitile1">

@@ -346,13 +346,13 @@ export const DataTableRow = ({
                                                     }
                                                     align="center"
                                                 >
-                                                    {item.type}
+                                                    {taxableIncome.filter(obj => obj.category === item.type)[0].label}
                                                 </TableCell>
                                                 <TableCell
                                                     key={item.amount + Math.random(10, 10)}
                                                     align="center"
                                                 >
-                                                    -
+                                                    {item.hasOwnProperty("subType") ? taxableIncome.filter(obj => obj.category === item.type)[0].subcategory.filter(nestObj => nestObj.subcategorycategory === item.subType)[0].subcategorylabel : "-"}
                                                 </TableCell>
                                             </TableRow>
                                         ))}
@@ -390,7 +390,7 @@ export const DataTableRow = ({
                                                     key={item.type + index + dataMonth.date}
                                                     align="center"
                                                 >
-                                                    {item.type}
+                                                    {expenseType.filter(obj => obj.category === item.type)[0].name}
                                                 </TableCell>
                                             </TableRow>
                                         ))}

@@ -64,7 +64,7 @@ export const EvaluationForm = ({ setshowRiskLevel, setEvaluationResult }) => {
         <div>
           <div className="MultipleChoiceForm">
             <FormControl>
-              <h2>Question {currentQuestionIndex + 1}</h2>
+              <h2>คำถาม ข้อที่ {currentQuestionIndex + 1}</h2>
               <div>
                 <FormLabel id="question" className="QuestionHeader">
                   <h4>{question}</h4>
@@ -96,7 +96,7 @@ export const EvaluationForm = ({ setshowRiskLevel, setEvaluationResult }) => {
             <Stack spacing={2} direction="row">
               {currentQuestionIndex > 0 && (
                 <Button variant="outlined" onClick={prevQuestion}>
-                  Back
+                  กลับ
                 </Button>
               )}
               {currentQuestionIndex < questions.length - 1 ? (
@@ -105,7 +105,7 @@ export const EvaluationForm = ({ setshowRiskLevel, setEvaluationResult }) => {
                   onClick={nextQuestion}
                   disabled={!isOptionSelected}
                 >
-                  Next
+                  ต่อไป
                 </Button>
               ) : (
                 <Button
@@ -113,7 +113,7 @@ export const EvaluationForm = ({ setshowRiskLevel, setEvaluationResult }) => {
                   onClick={calculateScore}
                   disabled={!isOptionSelected}
                 >
-                  Finish
+                  ประเมินผล
                 </Button>
               )}
             </Stack>

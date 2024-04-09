@@ -15,6 +15,7 @@ import Navigate from "components/Navbar";
 import { useNavigate, useLocation } from "react-router-dom";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { Footer } from "components/Footer";
+import { SellPriceZeroPromptModal } from "components/SellPriceZeroPromptModal";
 
 const baseURL = "http://localhost:8000";
 
@@ -27,7 +28,6 @@ async function getFundsLastestNav(proj_id, userStore) {
                 userToken: userStore.userToken,
             },
         });
-        console.log('res.data :: ',res.data)
         return res.data[0];
     } catch (err) {
         console.log("err :: ", err);
@@ -144,6 +144,7 @@ export const BuyAssetPage = () => {
 
     const [isLoading, setIsLoading] = useState(false);
     const [isOverlayLoading, setIsOverlayLoading] = useState(false);
+    const [isPromptModalOpen, setIsPromptModalOpen] = useState(false);
 
     const [fetchedNav, setFetchedNav] = useState(null);
     const [yearToDateGraphData, setYearToDateGraphData] = useState(null);
@@ -186,7 +187,7 @@ export const BuyAssetPage = () => {
                                 buyDay: navDate.getDate(),
                                 buyMonth: navDate.getMonth(),
                                 year: navDate.getFullYear(),
-                                buyPrice: fetchedNav.last_val,
+                                buyPrice: fetchedNav.sell_price,
                                 proj_id: fundData.proj_id
                             },
                         ],
@@ -220,7 +221,7 @@ export const BuyAssetPage = () => {
     };
 
     useEffect(() => {
-        if (!fundData || !goalData || !userStore) return;
+        if (!fundData || !goalData || !userStore.userToken) return;
 
         setIsLoading(true);
         Promise.all([
@@ -231,6 +232,9 @@ export const BuyAssetPage = () => {
                 setFetchedNav(res[0]);
                 setYearToDateGraphData(digestYearToDateData(res[1]));
                 setGraphWithPredictionData(digestDataWithPrediction(res[1], fundData));
+                if(res[0].sell_price === 0){
+                    setIsPromptModalOpen(true);
+                }
                 setIsLoading(false);
             })
             .catch((err) => {
@@ -535,7 +539,7 @@ export const BuyAssetPage = () => {
                                             error={inputBuyError}
                                             onChange={(e) => {
                                                 setUserInputBuyAmount(e.target.value);
-                                                setCalculatedUnitBuy(roundNumber(e.target.value / fetchedNav.last_val + Number.EPSILON, 6));
+                                                setCalculatedUnitBuy(roundNumber(e.target.value / fetchedNav.sell_price + Number.EPSILON, 6));
                                             }}
                                         />
                                     </Box>
@@ -557,30 +561,6 @@ export const BuyAssetPage = () => {
                                         />
                                     </Box>
                                 </Grid>
-                                {/* <Grid item xs={4} md={4}>
-                                    {fetchedNav && <Box
-                                        display="flex"
-                                        justifyContent="center"
-                                        alignItems="center"
-                                    >
-                                        <TextField
-                                            id={"asset-price"}
-                                            label="ราคาปัจจุบัน"
-                                            disabled={true}
-                                            size="small"
-                                            margin="normal"
-                                            helperText={
-                                                fetchedNav &&
-                                                "อัปเดตล่าสุดเมื่อ " +
-                                                new Date(
-                                                    fetchedNav.last_upd_date
-                                                ).toLocaleDateString("en-GB")
-                                            }
-                                            value={fetchedNav && fetchedNav.last_val}
-                                        />
-                                    </Box>}
-                                </Grid> */}
-                                
                             </Grid>
                         </Box>
                     )}
@@ -659,6 +639,7 @@ export const BuyAssetPage = () => {
                     <OverlayLoading isLoading={isOverlayLoading}></OverlayLoading>
                 </Box>
             </Container>
+            <SellPriceZeroPromptModal open={isPromptModalOpen} fundData={fundData}/>
             <Footer />
         </>
     );

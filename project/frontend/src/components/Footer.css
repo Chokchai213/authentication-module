@@ -24,13 +24,19 @@ ul {
   padding: 70px 0;
 }
 .footer-col {
-  width: 33%;
+  width: 50%;
   padding: 0 15px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 .footer-col-logo {
-  width: 33%;
+  display: flex;
+  width: 50%;
   padding: 0 15px;
-  align-content: center;
+  justify-content: center;
+  max-height: 33%;
 }
 .footer-col h4 {
   font-size: 18px;
@@ -69,7 +75,7 @@ ul {
 }
 .footer-col-logo img {
   height: auto; /* Scales the height automatically based on the width */
-  width: 40%; /* Makes the image width equal to the parent's width */
+  width: 30%; /* Makes the image width equal to the parent's width */
 }
 .footer-col .social-links a {
   display: inline-block;

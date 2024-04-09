@@ -16,6 +16,7 @@ import CircularProgress from '@mui/joy/CircularProgress';
 import { RiskProfilePromptModal } from "components/RiskProfilePromptModal_GoalBased";
 import { CurrentUserRiskProfile } from "components/CurrentUserRiskProfile";
 import { UserNetSummary } from "components/UserNetSummary";
+import Box from "@mui/material/Box";
 import { Footer } from "components/Footer";
 const baseURL = "http://localhost:8000";
 
@@ -196,7 +197,25 @@ export const GoalBased = () => {
             <Navigate />
             <Typography marginBottom={5} marginTop={5} variant="h5" textAlign={"center"} fontWeight={'bold'}>Goal-Based Investment</Typography>
             <CurrentUserRiskProfile></CurrentUserRiskProfile>
-            <UserNetSummary />
+            {/* Contained in Box */}
+            <Container
+                sx={{
+                    display: "ruby-text",
+                }}
+            >
+                <Box
+                    sx={{
+                        marginTop: 10,
+                        marginBottom: 10,
+                        borderRadius: 6,
+                        boxShadow: 6,
+                        padding: 4,
+                    }}
+                >
+                    <UserNetSummary />
+                </Box>
+            </Container>
+
             <Container
                 style={{
                     display: "flex",
@@ -256,7 +275,7 @@ export const GoalBased = () => {
                 </Card>
             </Container>
             <AssetSummary></AssetSummary>
-            <Footer/>
+            <Footer />
         </React.Fragment>
     );
 };

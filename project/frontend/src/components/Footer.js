@@ -22,7 +22,7 @@ export const Footer = () => {
             <div className="footer-col-logo">
               <img src="https://mahidol.ac.th/documents/CI/update/Mahidol/1.png"></img>
             </div>
-            <div className="footer-col">
+            {/* <div className="footer-col">
               <h4>Limitation of the program</h4>
               <ul>
                 <li>
@@ -35,7 +35,7 @@ export const Footer = () => {
                   <a href="#">dress</a>
                 </li>
               </ul>
-            </div>
+            </div> */}
             <div className="footer-col">
               <h4>follow us</h4>
               <div className="social-links">

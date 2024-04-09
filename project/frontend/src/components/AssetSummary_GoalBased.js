@@ -131,7 +131,7 @@ export const AssetSummary = () => {
                     >
                         <FormControl
                             sx={{
-                                // width: "10%",
+                                minWidth: "20%",
                                 // position: "absolute",
                                 // right : "0"
                                 // right: "5.5%",
@@ -147,6 +147,7 @@ export const AssetSummary = () => {
                                 onChange={(e) => {
                                     setSelectGoalValue(e.target.value);
                                 }}
+
                                 disabled={userData.length > 0 ? false : true}
                             >
                                 {userData.map((data, index) => (
