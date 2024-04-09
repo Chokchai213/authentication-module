@@ -22,7 +22,7 @@ import UserFundTable from 'components/userFundTable';
 import StartIcon from '@mui/icons-material/Start';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
-import { Button } from "@mui/material";
+import { Button } from '@mui/joy';
 import Tooltip from '@mui/material/Tooltip';
 import { Footer } from 'components/Footer';
 import { useSelector } from 'react-redux';
@@ -363,7 +363,7 @@ export function NewTaxGoal() {
         <React.Fragment>
             <Navigate />
             {isloading == false &&
-                (<div style={{ display: 'flex', marginTop: 30, flexDirection: 'column', alignItems: 'center' }}>
+                (<div style={{ display: 'flex', marginTop: 30, flexDirection: 'column', alignItems: 'center', height: '100vh' }}>
                     <Typography marginBottom={2} fontWeight={'bold'}>การคำนวนเงินได้สุทธิเพื่อนำไปคำนวนภาษี</Typography>
                     <TableContainer component={Paper} sx={{ width: '50%' }}>
                         <Table aria-label="collapsible table">
@@ -999,13 +999,15 @@ export function NewTaxGoal() {
     else if (isEnough === false) return (
         <React.Fragment>
             <Navigate />
-            <div style={{ display: 'flex', position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-50%)' }}>
-                <Box sx={{ display: 'flex', padding: 5, backgroundColor: '#FAFAFA', borderRadius: 5, borderWidth: 1, borderStyle: 'solid', alignItems: 'center', justifyContent: 'center', boxShadow: 6, flexDirection: 'column' }}>
-                    <Typography style={{ fontWeight: "bold", fontSize: 22, textAlign: 'center' }}>กรุณากรอกรายได้ของคุณให้ครบทั้งปีเพื่อคำนวนภาษีของคุณ</Typography>
-                    <Container style={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
-                        <Button onClick={() => navigate('/')} sx={{ backgroundColor: '#2E3B55', marginTop: 2 }}>ตกลง</Button>
-                    </Container>
-                </Box>
+            <div style={{ width: '100vh', height: '100vh' }}>
+                <div style={{ display: 'flex', position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-50%)' }}>
+                    <Box sx={{ display: 'flex', padding: 5, backgroundColor: '#FAFAFA', borderRadius: 5, borderWidth: 1, borderStyle: 'solid', alignItems: 'center', justifyContent: 'center', boxShadow: 6, flexDirection: 'column' }}>
+                        <Typography style={{ fontWeight: "bold", fontSize: 22, textAlign: 'center' }}>กรุณากรอกรายได้ของคุณให้ครบทั้งปีเพื่อคำนวนภาษีของคุณ</Typography>
+                        <Container style={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
+                            <Button onClick={() => navigate('/')} sx={{ backgroundColor: '#2E3B55', marginTop: 2 }}>ตกลง</Button>
+                        </Container>
+                    </Box>
+                </div>
             </div>
             <Footer />
         </React.Fragment>

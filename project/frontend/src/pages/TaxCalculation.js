@@ -413,7 +413,7 @@ export function TaxCal() {
         <React.Fragment>
             <Navigate />
             {isloading == false && data.length > 0 ?
-                (<div style={{ display: 'flex', marginTop: 20, flexDirection: 'column', alignItems: 'center', height: '95vh' }}>
+                (<div style={{ display: 'flex', marginTop: 20, flexDirection: 'column', alignItems: 'center', height: '100vh' }}>
                     <Typography marginBottom={5} marginTop={3} variant="h5" textAlign={"center"} fontWeight={'bold'}>Tax Calculation</Typography>
                     <TableContainer component={Paper} sx={{ width: '50%' }}>
                         <Table aria-label="collapsible table">
@@ -1041,13 +1041,15 @@ export function TaxCal() {
     else if (isEnoughData === false) return (
         <React.Fragment>
             <Navigate />
-            <div style={{ display: 'flex', position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-50%)' }}>
-                <Box sx={{ display: 'flex', padding: 5, backgroundColor: '#FAFAFA', borderRadius: 5, borderWidth: 1, borderStyle: 'solid', alignItems: 'center', justifyContent: 'center', boxShadow: 6, flexDirection: 'column' }}>
-                    <Typography style={{ fontWeight: "bold", fontSize: 22, textAlign: 'center' }}>กรุณากรอกรายได้ของคุณให้ครบทั้งปีเพื่อคำนวนภาษีของคุณ</Typography>
-                    <Container style={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
-                        <Button onClick={() => navigate('/')} sx={{ backgroundColor: '#2E3B55', marginTop: 2 }}>ตกลง</Button>
-                    </Container>
-                </Box>
+            <div style={{ width: '100vh', height: '100vh' }}>
+                <div style={{ display: 'flex', position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-50%)' }}>
+                    <Box sx={{ display: 'flex', padding: 5, backgroundColor: '#FAFAFA', borderRadius: 5, borderWidth: 1, borderStyle: 'solid', alignItems: 'center', justifyContent: 'center', boxShadow: 6, flexDirection: 'column' }}>
+                        <Typography style={{ fontWeight: "bold", fontSize: 22, textAlign: 'center' }}>กรุณากรอกรายได้ของคุณให้ครบทั้งปีเพื่อคำนวนภาษีของคุณ</Typography>
+                        <Container style={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
+                            <Button onClick={() => navigate('/')} sx={{ backgroundColor: '#2E3B55', marginTop: 2 }}>ตกลง</Button>
+                        </Container>
+                    </Box>
+                </div>
             </div>
             <Footer />
         </React.Fragment>
