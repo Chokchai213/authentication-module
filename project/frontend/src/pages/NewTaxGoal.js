@@ -111,8 +111,8 @@ export function NewTaxGoal() {
     }, [fund, personal, insurance, charity, personal1, personal2, personal3, personal4, personal5, personal6, insurance1, insurance2, insurance3, insurance4, insurance5, insurance6, insurance7, insurance8, insurance9, charities]
     );
 
-    const [arr, setArr] = React.useState([]);
 
+    const [arr, setArr] = React.useState([]);
     React.useEffect(() => {
         async function fetchData() {
             if (arr.length === 0) {
@@ -146,6 +146,28 @@ export function NewTaxGoal() {
                         }
                     });
             }
+            await axios.post(`http://localhost:8000/db/get_user_tax`, { userId: uid })
+                .then(res => {
+                    if (res.data[0] && res.data[0].reductionField) {
+                        const reduction = res.data[0].reductionField;
+                        setPersonal1(reduction.personal1);
+                        setPersonal2(reduction.personal2);
+                        setPersonal3(reduction.personal3);
+                        setPersonal4(reduction.personal4);
+                        setPersonal5(reduction.personal5);
+                        setPersonal6(reduction.personal6);
+                        setInsurance1(reduction.insurance1);
+                        setInsurance2(reduction.insurance2);
+                        setInsurance3(reduction.insurance3);
+                        setInsurance4(reduction.insurance4);
+                        setInsurance5(reduction.insurance5);
+                        setInsurance6(reduction.insurance6);
+                        setInsurance7(reduction.insurance7);
+                        setInsurance8(reduction.insurance8);
+                        setInsurance9(reduction.insurance9);
+                        setCharities(reduction.charities);
+                    }
+                })
         }
         fetchData();
     }, [uid]);
@@ -302,8 +324,31 @@ export function NewTaxGoal() {
     //console.log(benefitObj);
     // console.log('income : ', incomeObj);
     // console.log('expense : ', benefitObj);
-    function saveTaxGoal() {
-        axios.post('http://localhost:8000/db/save_tax_goal', {
+    async function saveTaxGoal() {
+        const reductionField = {
+            personal1,
+            personal2,
+            personal3,
+            personal4,
+            personal5,
+            personal6,
+            insurance1,
+            insurance2,
+            insurance3,
+            insurance4,
+            insurance5,
+            insurance6,
+            insurance7,
+            insurance8,
+            insurance9,
+            charities
+        }
+        await axios.post('http://localhost:8000/db/save_reduction_field', {
+            userId: uid,
+            reductionField
+        })
+
+        await axios.post('http://localhost:8000/db/save_tax_goal', {
             Name: 'ลดหย่อนภาษี',
             userId: uid,
             //netIncome: incomeSum - benefitSum - personal - insurance - charity - fund,
@@ -311,7 +356,7 @@ export function NewTaxGoal() {
             totalReduce: totalReduce,
             incomeFourSubtractor: Number(insurance5.replace(/,/g, '') || 0) + Number(insurance6.replace(/,/g, '') || 0) + Number(insurance7.replace(/,/g, '') || 0) + Number(insurance9.replace(/,/g, '') || 0)
         })
-            .then(navigate("/Goal-Based"));
+        navigate("/Goal-Based")
     }
 
     if (isEnough === true) return (
@@ -922,7 +967,7 @@ export function NewTaxGoal() {
                                     saveTaxGoal()
                                 }}
                             >
-                                บันทึกเป้าหมาย
+                                สร้างเป้าหมาย
                             </Button>
                         </Container>
                         :
@@ -942,7 +987,7 @@ export function NewTaxGoal() {
                                     saveTaxGoal()
                                 }}
                             >
-                                บันทึกเป้าหมาย
+                                สร้างเป้าหมาย
                             </Button>
                             {/* </Link> */}
                         </Container>

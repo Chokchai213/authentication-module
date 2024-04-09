@@ -139,6 +139,7 @@ exports.saveTaxGoal = async (req, res) => {
 
     try {
         await collection.insertOne(updateDoc);
+        res.status(200).send();
     } catch (error) {
         console.log("Error occured in exports.saveTaxGoal: ", error);
         res.status(401).json({ message: error });
@@ -767,7 +768,7 @@ exports.getGoalAssetLastestNav = async (req, res) => {
                 const lastestNav = await secApiUtils.getLastestNav(asset.proj_id);
                 const sellPrice = lastestNav[0].buy_price;
                 const lastVal = lastestNav[0].last_val;
-                const sellProfit = sellPrice !== 0 ? sellPrice*asset.unit + Number.EPSILON : lastVal*asset.unit + Number.EPSILON;
+                const sellProfit = sellPrice !== 0 ? sellPrice * asset.unit + Number.EPSILON : lastVal * asset.unit + Number.EPSILON;
                 return {
                     ...asset,
                     value: sellProfit,
@@ -792,7 +793,7 @@ exports.updateGoalStatusFlag = async (req, res) => {
     try {
         const isVerify = await firebaseAuth.verifyIdToken(userToken, userId);
         if (isVerify) {
-            const query = {_id : new ObjectId(goalData._id),userId : userId}
+            const query = { _id: new ObjectId(goalData._id), userId: userId }
             goalData.goalStatus = goalStatus;
             delete goalData._id
             await collection.updateOne(
@@ -809,6 +810,61 @@ exports.updateGoalStatusFlag = async (req, res) => {
         res.status(401).json({ message: err });
     }
 }
+
+exports.saveReductionField = async (req, res) => {
+    const db = client.db(dbName);
+    const collection = db.collection("tax");
+    const collectionGoal = db.collection('goal');
+    //console.log(req.body.userId, req.body.reductionField)
+    //เอาไว้หา UserId
+    const filter = {
+        userId: req.body.userId,
+    };
+
+    const updateDoc = {
+        $set: {
+            reductionField: req.body.reductionField,
+        }
+    };
+
+    const filterIsGoalExist = {
+        userId: req.body.userId,
+        Name: "ลดหย่อนภาษี"
+    }
+
+    const changeGoalData = {
+        $set: {
+            totalReduce: req.body.totalReduce,
+            incomeFourSubtractor: req.body.incomeFourSubtractor
+        }
+    }
+    try {
+        await collection.updateOne(filter, updateDoc, { upsert: true });
+        await collectionGoal.updateOne(filterIsGoalExist, changeGoalData, { upsert: false });
+        res.status(200).send()
+    } catch (error) {
+        console.log("Error occured in exports.saveReductionField: ", error);
+        res.status(401).json({ message: error });
+    }
+}
+
+exports.getUserTax = async (req, res) => {
+    const db = client.db(dbName);
+    const collection = db.collection("tax");
+
+    const query = {
+        userId: req.body.userId,
+    };
+
+    try {
+        const userTax = await collection.find(query).toArray();
+        res.json(userTax);
+    } catch (error) {
+        console.log("Error occured in exports.saveReductionField: ", error);
+        res.status(401).json({ message: error });
+    }
+}
+
 
 async function updateUserBoughtAsset(uid, amountBought) {
     const db = client.db(dbName);

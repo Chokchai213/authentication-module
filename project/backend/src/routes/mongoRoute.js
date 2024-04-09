@@ -61,10 +61,14 @@ router.get("/get_nav", mongoController.getFundsDailyNav);
 
 router.post("/insert_asset", mongoController.insertUserBoughtAsset);
 
-router.get("/get_user_asset_by_goal_id",mongoController.getUserAssetByGoalId);
+router.get("/get_user_asset_by_goal_id", mongoController.getUserAssetByGoalId);
 
 router.post("/get_goal_asset_lastest_price", mongoController.getGoalAssetLastestNav);
 
 router.post("/update_goal_status_flag", mongoController.updateGoalStatusFlag);
+
+router.post('/save_reduction_field', mongoController.saveReductionField);
+
+router.post('/get_user_tax', mongoController.getUserTax);
 
 module.exports = router;

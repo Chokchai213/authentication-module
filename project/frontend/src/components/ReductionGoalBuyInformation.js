@@ -58,7 +58,8 @@ export const ReductionGoalBuyInformation = ({ goalData }) => {
             fetchGoalAsset();
             makeIncomeArr();
             setTax(calTax(netIncome));
-            const calRec = Math.min(500000 - goalData.incomeFourSubtractor, netIncome - 150000);
+            const calRec = Math.min(500000 - goalData.incomeFourSubtractor, (netIncome + sumAsset) - 150000);
+            console.log("netIncome + sumAsset :: ", netIncome + sumAsset)
             setRecommend(calRec)
             const isEqual = (incomeSum * 0.3) - goalData.incomeFourSubtractor;
             if (isEqual < 200000 - goalData.incomeFourSubtractor) {
@@ -239,7 +240,7 @@ export const ReductionGoalBuyInformation = ({ goalData }) => {
                             </>
                             :
                             <Typography fontSize={20}>
-                                เพดานในการซื้อกองทุน RMF และ SSF สูงสุดของคุณคือ : {Math.max(0, (incomeSum * 0.3) - goalData.incomeFourSubtractor - sumAsset).toLocaleString("en-GB")} บาท {/*เพิ่ม min 500,000 - กลุ่มค่าลดหย่อน 4 ตัว*/}
+                                เพดานในการซื้อกองทุน RMF และ SSF สูงสุดของคุณคือ : {Math.max(0, (incomeSum * 0.3) - goalData.incomeFourSubtractor).toLocaleString("en-GB")} บาท {/*เพิ่ม min 500,000 - กลุ่มค่าลดหย่อน 4 ตัว*/}
                             </Typography>}
                     </Box>
                 </Container>}

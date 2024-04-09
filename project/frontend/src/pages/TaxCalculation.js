@@ -172,13 +172,37 @@ export function TaxCal() {
                             console.log(sumFund)
                         }
                     });
+                await axios.post(`http://localhost:8000/db/get_user_tax`, { userId: uid })
+                    .then(res => {
+                        if (res.data[0] && res.data[0].reductionField) {
+                            const reduction = res.data[0].reductionField;
+                            setPersonal1(reduction.personal1);
+                            setPersonal2(reduction.personal2);
+                            setPersonal3(reduction.personal3);
+                            setPersonal4(reduction.personal4);
+                            setPersonal5(reduction.personal5);
+                            setPersonal6(reduction.personal6);
+                            setInsurance1(reduction.insurance1);
+                            setInsurance2(reduction.insurance2);
+                            setInsurance3(reduction.insurance3);
+                            setInsurance4(reduction.insurance4);
+                            setInsurance5(reduction.insurance5);
+                            setInsurance6(reduction.insurance6);
+                            setInsurance7(reduction.insurance7);
+                            setInsurance8(reduction.insurance8);
+                            setInsurance9(reduction.insurance9);
+                            setCharities(reduction.charities);
+                        }
+                    })
             }
         }
         fetchData();
     }, [uid]);
 
+
+    const [saved, setSaved] = React.useState(true)
     React.useEffect(() => {
-        setIsloading(true)
+        //setIsloading(true)
         const sumPersonal = Number(personal1.replace(/,/g, '') || 0) + Number(personal2.replace(/,/g, '') || 0) + Number(personal3.replace(/,/g, '') || 0) + Number(personal4.replace(/,/g, '') || 0) + Number(personal5.replace(/,/g, '') || 0) + Number(personal6.replace(/,/g, '') || 0);
         setPersonal(sumPersonal);
         const sumInsurance = Number(insurance1.replace(/,/g, '') || 0) + Number(insurance2.replace(/,/g, '') || 0) + Number(insurance3.replace(/,/g, '') || 0) + Number(insurance4.replace(/,/g, '') || 0) + Number(insurance5.replace(/,/g, '') || 0) + Number(insurance6.replace(/,/g, '') || 0) + Number(insurance7.replace(/,/g, '') || 0) + Number(insurance8.replace(/,/g, '') || 0) + Number(insurance9.replace(/,/g, '') || 0);
@@ -191,6 +215,7 @@ export function TaxCal() {
         if (Number(insurance5.replace(/,/g, '') || 0) + Number(insurance6.replace(/,/g, '') || 0) + Number(insurance7.replace(/,/g, '') || 0) + Number(insurance9.replace(/,/g, '') || 0) + Number(fund || 0) > 500000) { setWarning2(true) } else { setWarning2(false) };
         setTax(calTax(incomeSum - benefitSum - personal - insurance - charity - fund));
         setIsloading(false)
+        setSaved(false)
     }, [fund, incomeObj, personal, insurance, charity, personal1, personal2, personal3, personal4, personal5, personal6, insurance1, insurance2, insurance3, insurance4, insurance5, insurance6, insurance7, insurance8, insurance9, charities]
     );
 
@@ -344,6 +369,45 @@ export function TaxCal() {
     //         navigate('../Goal-Based')
     //     }
     // }
+
+    async function saveTaxGoal() {
+        const reductionField = {
+            personal1,
+            personal2,
+            personal3,
+            personal4,
+            personal5,
+            personal6,
+            insurance1,
+            insurance2,
+            insurance3,
+            insurance4,
+            insurance5,
+            insurance6,
+            insurance7,
+            insurance8,
+            insurance9,
+            charities
+        }
+        await axios.post('http://localhost:8000/db/save_reduction_field', {
+            userId: uid,
+            reductionField,
+            totalReduce: totalReduce,
+            incomeFourSubtractor: Number(insurance5.replace(/,/g, '') || 0) + Number(insurance6.replace(/,/g, '') || 0) + Number(insurance7.replace(/,/g, '') || 0) + Number(insurance9.replace(/,/g, '') || 0)
+        })
+        setSaved(true)
+
+        // await axios.post('http://localhost:8000/db/save_tax_goal', {
+        //     Name: 'ลดหย่อนภาษี',
+        //     userId: uid,
+        //     //netIncome: incomeSum - benefitSum - personal - insurance - charity - fund,
+        //     //beforeReduction: incomeSum,
+        //     totalReduce: totalReduce,
+        //     incomeFourSubtractor: Number(insurance5.replace(/,/g, '') || 0) + Number(insurance6.replace(/,/g, '') || 0) + Number(insurance7.replace(/,/g, '') || 0) + Number(insurance9.replace(/,/g, '') || 0)
+        // })
+        // navigate("/Goal-Based")
+    }
+
 
     if (isEnoughData === true) return (
         <React.Fragment>
@@ -954,18 +1018,19 @@ export function TaxCal() {
                         </Typography>
                     </Container>
 
-                    {fund !== '' ? null : (warning1 == true || warning2 == true || incomeSum - benefitSum - personal - insurance - charity - Number(fund || 0) <= 150000) ?
-                        <Container style={{ display: 'flex', width: '50%', marginTop: 20, marginBottom: 20, justifyContent: 'right', alignItems: 'center' }}>
-                            <Tooltip title="Goal-Based Feature !" arrow placement='right'>
-                                <Button disabled={true} style={{ fontWeight: 'normal' }}>ลดหย่อนภาษีเพิ่มเติม !</Button>
-                            </Tooltip>
-                        </Container>
-                        :
-                        <Container style={{ display: 'flex', width: '50%', marginTop: 20, marginBottom: 20, justifyContent: 'right', alignItems: 'center' }}>
-                            <Tooltip title="Goal-Based Feature !" arrow placement='right'>
-                                <Button onClick={e => navigate('../Goal-Based')} style={{ fontWeight: 'normal' }}>ลดหย่อนภาษีเพิ่มเติม !</Button>
-                            </Tooltip>
-                        </Container>}
+                    {/*fund !== '' ? null : */
+                        (warning1 == true || warning2 == true || incomeSum - benefitSum - personal - insurance - charity - Number(fund || 0) <= 150000) || saved == true ?
+                            <Container style={{ display: 'flex', width: '50%', marginTop: 20, marginBottom: 20, justifyContent: 'right', alignItems: 'center' }}>
+                                <Tooltip title="Goal-Based Feature !" arrow placement='right'>
+                                    <Button disabled={true} style={{ fontWeight: 'normal' }}>บันทึกข้อมูลของคุณ</Button>
+                                </Tooltip>
+                            </Container>
+                            :
+                            <Container style={{ display: 'flex', width: '50%', marginTop: 20, marginBottom: 20, justifyContent: 'right', alignItems: 'center' }}>
+                                <Tooltip title="Goal-Based Feature !" arrow placement='right'>
+                                    <Button onClick={e => saveTaxGoal()} style={{ fontWeight: 'normal' }}>บันทึกข้อมูลของคุณ</Button>
+                                </Tooltip>
+                            </Container>}
 
                 </div>) : null
             }
