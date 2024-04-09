@@ -467,14 +467,11 @@ export function TaxCal() {
                         </Button>
                         <Button
                             onClick={e => { handleCloseSave(); navigate('../Goal-Based'); }}
-                            sx={{ backgroundColor: "green", width: '40%', display: 'flex', flexDirection: 'column' }}
+                            sx={{ backgroundColor: "green", width: '50%', display: 'flex', flexDirection: 'column' }}
                             size="md"
                         >
                             <Typography color="white" variant="subtitile1">
-                                ไปหน้า
-                            </Typography>
-                            <Typography color="white" variant="subtitile1">
-                                Goal-Based
+                                ไปหน้า Goal-Based
                             </Typography>
 
                         </Button>
