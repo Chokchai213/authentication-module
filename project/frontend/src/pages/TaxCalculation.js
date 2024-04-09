@@ -28,6 +28,8 @@ import { useLocation } from "react-router-dom";
 import { Button } from '@mui/joy';
 import { useNavigate } from 'react-router-dom';
 import { Footer } from 'components/Footer';
+import Modal from "@mui/material/Modal";
+
 
 ////// มึงไปแก้ให้มันกดเข้ามาได้อยู่ แต่ handle case ที่มันไม่มี data แล้วมึงรบกวนช่วยบอก user ด้วยว่ามันไม่มี data ให้มึงกลับไปกรอกมาก่อน
 export function calTax(netIncome) {
@@ -396,7 +398,7 @@ export function TaxCal() {
             incomeFourSubtractor: Number(insurance5.replace(/,/g, '') || 0) + Number(insurance6.replace(/,/g, '') || 0) + Number(insurance7.replace(/,/g, '') || 0) + Number(insurance9.replace(/,/g, '') || 0)
         })
         setSaved(true)
-
+        handleOpenSave()
         // await axios.post('http://localhost:8000/db/save_tax_goal', {
         //     Name: 'ลดหย่อนภาษี',
         //     userId: uid,
@@ -407,6 +409,82 @@ export function TaxCal() {
         // })
         // navigate("/Goal-Based")
     }
+
+    const [openSave, setOpenSave] = React.useState(false);
+
+    const handleOpenSave = () => setOpenSave(true);
+    const handleCloseSave = () => setOpenSave(false);
+
+    const ModalSave = ({ openSave, handleCloseSave }) => {
+        return (
+            <Modal
+                open={openSave}
+                onClose={handleCloseSave}
+                aria-labelledby="modal-modal-title"
+                aria-describedby="modal-modal-description"
+            >
+                <Container
+                    style={{
+                        position: "absolute",
+                        top: "50%",
+                        left: "50%",
+                        transform: "translate(-50%, -50%)",
+                        width: 480,
+                        backgroundColor: "white",
+                        border: "0px solid #000",
+                        borderRadius: 10,
+                        display: "flex",
+                        flexDirection: "column",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        paddingTop: 20,
+                        paddingBottom: 20,
+                    }}
+                >
+                    <Typography id="modal-modal-title" variant="h6" fontWeight={'bold'}>
+                        บันทึกข้อมูลสำเร็จ
+                    </Typography>
+                    <Container
+                        style={{
+                            display: "flex",
+                            flexDirection: "row",
+                            alignItems: "center",
+                            justifyContent: "space-between",
+                            width: "80%",
+                            marginTop: 12
+                        }}
+                    >
+                        <Button
+                            onClick={e => handleCloseSave()}
+                            sx={{ backgroundColor: "brown", width: '40%' }}
+                            size="md">
+                            <Typography
+                                color="white"
+                                variant="subtitile1"
+                            >
+                                ปิด
+                            </Typography>
+                        </Button>
+                        <Button
+                            onClick={e => { handleCloseSave(); navigate('../Goal-Based'); }}
+                            sx={{ backgroundColor: "green", width: '40%', display: 'flex', flexDirection: 'column' }}
+                            size="md"
+                        >
+                            <Typography color="white" variant="subtitile1">
+                                ไปหน้า
+                            </Typography>
+                            <Typography color="white" variant="subtitile1">
+                                Goal-Based
+                            </Typography>
+
+                        </Button>
+                    </Container>
+                </Container>
+                {/* <OverlayLoading isLoading={isLoading}/> */}
+            </Modal>
+        );
+    };
+
 
 
     if (isEnoughData === true) return (
@@ -1031,7 +1109,10 @@ export function TaxCal() {
                                     <Button onClick={e => saveTaxGoal()} style={{ fontWeight: 'normal' }}>บันทึกข้อมูลของคุณ</Button>
                                 </Tooltip>
                             </Container>}
-
+                    <ModalSave
+                        openSave={openSave}
+                        handleCloseSave={handleCloseSave}
+                    />
                 </div>) : null
             }
 

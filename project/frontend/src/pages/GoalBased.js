@@ -157,7 +157,7 @@ export const GoalBased = () => {
                         paddingBottom: 12,
                     }}
                 >
-                    <Typography gutterBottom id="modal-modal-title" variant="subtitile1">
+                    <Typography gutterBottom id="modal-modal-title" variant="h6">
                         สร้างเป้าหมาย
                     </Typography>
                     <Container
@@ -170,8 +170,8 @@ export const GoalBased = () => {
                     >
                         <Button
                             onClick={(e) => handleGoalTypeClick("normal")}
-                            sx={{ backgroundColor: "black", marginRight: 2 }}
-                            size="small"
+                            sx={{ backgroundColor: "black", marginRight: 4 }}
+                            size="medium"
                         >
                             <Typography color="white" variant="subtitile1">
                                 เพื่อเก็บออมเงิน
@@ -180,7 +180,7 @@ export const GoalBased = () => {
                         <Button
                             onClick={(e) => handleGoalTypeClick("tax")}
                             sx={{ backgroundColor: "black" }}
-                            size="small"
+                            size="meduim"
                         >
                             <Typography color="white" variant="subtitile1">
                                 เพื่อลดหย่อนภาษี

@@ -22,7 +22,7 @@ import UserFundTable from 'components/userFundTable';
 import StartIcon from '@mui/icons-material/Start';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
-import { Button } from '@mui/joy';
+import { Button } from "@mui/material";
 import Tooltip from '@mui/material/Tooltip';
 import { Footer } from 'components/Footer';
 import { useSelector } from 'react-redux';
@@ -1004,7 +1004,7 @@ export function NewTaxGoal() {
                     <Box sx={{ display: 'flex', padding: 5, backgroundColor: '#FAFAFA', borderRadius: 5, borderWidth: 1, borderStyle: 'solid', alignItems: 'center', justifyContent: 'center', boxShadow: 6, flexDirection: 'column' }}>
                         <Typography style={{ fontWeight: "bold", fontSize: 22, textAlign: 'center' }}>กรุณากรอกรายได้ของคุณให้ครบทั้งปีเพื่อคำนวนภาษีของคุณ</Typography>
                         <Container style={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
-                            <Button onClick={() => navigate('/')} sx={{ backgroundColor: '#2E3B55', marginTop: 2 }}>ตกลง</Button>
+                            <Button onClick={() => navigate('/')} sx={{ backgroundColor: '#2E3B55', marginTop: 2, color: 'white', borderRadius: 2 }}>ตกลง</Button>
                         </Container>
                     </Box>
                 </div>
